@@ -1,0 +1,12 @@
+.glass {
+    backdrop-filter: blur(20px);
+}
+
+.header {
+    background-color: var(--background-secondary);
+    min-height: var(--header-height);
+    line-height: var(--header-height);
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+}

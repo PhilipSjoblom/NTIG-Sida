@@ -1,0 +1,164 @@
+
+.lesson {
+    /* "top" and "height" are set dynamically depending on start and end times */
+    height: 40px;
+    top: 0;
+
+    position: absolute;
+    width: 100%;
+    container-type: size;
+
+    background-color: hsl(var(--lesson-hue), 50%, var(--lesson-lightness));
+    color: var(--text-primary);
+    /*padding: var(--lesson-padding);*/
+
+    --lesson-padding: 4px;
+    --lesson-time-height: 0.8em;
+    font-size: calc(var(--lesson-time-height) * 1.0);
+
+    box-sizing: border-box;
+}
+
+.details {
+    width: 100%;
+    height: calc(100% - (var(--lesson-time-height) + var(--lesson-padding)*2));
+    position: relative;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--background-tertiary) var(--background);
+}
+
+.lessonTitle {
+    margin: unset;
+    position: absolute;
+    left: var(--lesson-padding);
+    top: calc(var(--lesson-padding) / 2);
+    overflow-y: auto;
+
+    line-break: anywhere;
+    max-width: calc(100% - var(--lesson-padding)*2);
+    max-height: 2lh;
+}
+.lessonRoom {
+    position: absolute;
+    bottom: 0;
+    left: var(--lesson-padding);
+}
+.lessonTeacher {
+    position: absolute;
+    bottom: 0;
+    right: var(--lesson-padding);
+}
+
+
+/* It can happen that both are none in skola24, and hence missing here */
+// .lesson > .lesson-details:not(:has(.lesson-teacher)):not(:has(.lesson-room)) .lesson-title{
+.details:not(:has(.lessonTeacher)):not(:has(.lessonRoom)) .lessonTitle {
+    max-height: 3lh;
+}
+
+.timeContainer {
+    width: 100%;
+    height: calc(var(--lesson-time-height) + var(--lesson-padding)*2);
+    line-height: var(--lesson-time-height);
+    /*margin: calc(0px - var(--lesson-padding));*/
+    /*padding-bottom: var(--lesson-padding);*/
+    /*padding-top: var(--lesson-padding);*/
+    position: absolute;
+    bottom: 0;
+    font-family: var(--font-family-monospace);
+    background-color: #0002;
+}
+.timeContainer > .time {
+    line-height: calc(var(--lesson-time-height) + var(--lesson-padding)*2);
+}
+.timeContainer > .timeStart {
+    position: absolute;
+    left: var(--lesson-padding);
+}
+.timeContainer > .timeEnd {
+    position: absolute;
+    right: var(--lesson-padding);
+}
+.timeContainer > .timeDivider {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - var(--lesson-padding)*4 - 10ch); /* 10 = len(00:00)*2 */
+    height: calc(var(--lesson-time-height) / 5);
+
+    background-color: var(--text-secondary);
+    border-radius: 10px;
+}
+
+@container (max-height: 60px) {
+    .details {
+        /*font-family: var(--font-family-monospace);*/
+        width: calc(100% - calc(5ch + var(--lesson-padding)*2));
+        height: 100%;
+    }
+    /*.lesson > .lesson-details > * {*/
+    /*    font-family: var(--font-family);*/
+    /*}*/
+
+    .timeContainer {
+        padding: 0;
+        right: 0;
+        width: calc(5ch + var(--lesson-padding)*2);
+        height: 100%;
+        text-align: center;
+    }
+    .timeContainer > .timeStart {
+        position: absolute;
+        top: var(--lesson-padding);
+        left: 0;
+        right: 0;
+    }
+    .timeContainer > .timeEnd {
+        position: absolute;
+        bottom: var(--lesson-padding);
+        left: 0;
+        right: 0;
+    }
+    .timeContainer > .timeDivider {
+        /*height: calc(100% - var(--lesson-padding)*4 - 10ch) !important;*/
+        /*width: calc(var(--lesson-time-height) / 5);*/
+
+        height: calc(100% - 3lh - var(--lesson-padding)*2);
+        width: calc(var(--lesson-time-height) / 5);
+    }
+}
+
+@container (max-height: 50px) {
+    .lessonTitle {
+        bottom: 0;
+        right: var(--lesson-padding);
+        left: unset;
+    }
+    .lessonTeacher {
+        display: none;
+    }
+    .timeContainer > * {
+        font-size: 4px;
+    }
+    .timeContainer > .timeStart {
+        top: 0;
+    }
+    .timeContainer > .timeEnd {
+        bottom: 0;
+    }
+}
+
+@container (max-width: 120px) {
+    .timeContainer {
+        display: none;
+    }
+    .details {
+        width: 100%;
+        height: 100%;
+    }
+    .lessonTeacher {
+        display: none;
+    }
+}

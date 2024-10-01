@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="148"
+   height="148"
+   viewBox="0 0 148 148"
+   version="1.1"
+   id="svg25"
+   sodipodi:docname="skola24_logo.svg"
+   inkscape:export-filename="skola24.png"
+   inkscape:export-xdpi="332.10809"
+   inkscape:export-ydpi="332.10809"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <sodipodi:namedview
+     id="namedview27"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#505050"
+     showgrid="false"
+     inkscape:zoom="3.6043186"
+     inkscape:cx="38.703571"
+     inkscape:cy="63.118727"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g673" />
+  <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+  <title
+     id="title2">skola24_logo_cmyk</title>
+  <desc
+     id="desc4">Created with Sketch.</desc>
+  <defs
+     id="defs7">
+    <polygon
+       id="path-1"
+       points="325.52696,147.95751 0,147.95751 0,0.29954067 325.52696,0.29954067 " />
+    <mask
+       id="mask-2-4"
+       fill="#ffffff">
+      <use
+         xlink:href="#path-1"
+         id="use9-7" />
+    </mask>
+    <mask
+       id="mask-2-4-0"
+       fill="#ffffff">
+      <use
+         xlink:href="#path-1"
+         id="use9-7-2" />
+    </mask>
+  </defs>
+  <g
+     id="g673"
+     transform="translate(2.215935,-0.35343411)">
+    <rect
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.5;stroke-linecap:round;stroke-miterlimit:20"
+       id="rect727"
+       width="177.84221"
+       height="184.77834"
+       x="-16.924143"
+       y="-21.085815"
+       rx="2.2314587"
+       ry="2.2314587"
+       transform="translate(-2.215935,0.35343411)" />
+    <path
+       d="m 253.74325,9.8296077 c -34.10241,0 -62.35896,28.2616263 -62.35896,64.3198083 0,36.058894 28.25655,64.320514 62.35896,64.320514 34.10241,0 62.35825,-28.26162 62.35825,-64.320514 0,-36.058182 -28.25584,-64.3198083 -62.35825,-64.3198083 z m 0,138.1703923 c -38.96842,0 -71.78442,-32.82272 -71.78442,-73.850584 0,-41.027158 32.816,-73.84987533 71.78442,-73.84987533 38.96842,0 71.78371,32.82271733 71.78371,73.84987533 C 325.52696,115.17728 292.71167,148 253.74325,148 Z"
+       id="Fill-3"
+       fill="#2eac66"
+       mask="url(#mask-2-4-0)"
+       sodipodi:nodetypes="ssssssssss"
+       transform="matrix(0.89477766,0,0,0.89477766,-155.25941,8.0248857)" />
+    <path
+       d="M 66.546041,91.791042 H 46.070289 L 60.434736,76.913586 c 4.975456,-5.098759 7.739379,-8.785808 7.739379,-14.12978 0,-6.696123 -5.159162,-12.593881 -13.820279,-12.593881 -6.419179,0 -11.234989,3.758015 -13.496558,8.622969 -0.207785,0.441636 -0.280638,0.959304 -0.162814,1.500418 0.190052,0.876299 0.909703,1.576453 1.790254,1.746897 1.066808,0.20656 2.037309,-0.32188 2.494693,-1.1684 0.02407,-0.04562 0.04751,-0.09251 0.06907,-0.139397 1.762381,-3.675644 4.99319,-6.139801 9.305375,-6.139801 5.282695,0 9.213525,3.563493 9.213525,8.171195 0,3.870165 -2.457319,7.003429 -5.958003,10.68921 l -17.473624,18.36935 c -0.02657,0.02787 -0.08554,0.09504 -0.112132,0.124189 -0.398462,0.440367 -0.68037,1.021399 -0.68037,1.661359 0,1.139253 0.819106,2.083984 1.899846,2.286743 0.138108,0.02852 0.281273,0.04308 0.427614,0.04308 h 24.875355 c 1.150425,0 2.083563,-0.932692 2.083563,-2.083351 0,-1.150025 -0.933138,-2.083351 -2.083563,-2.083351"
+       id="Fill-11"
+       fill="#121614"
+       sodipodi:nodetypes="cccsscccccsscccscsssc"
+       style="stroke-width:0.894777" />
+    <path
+       d="M 78.520958,81.563741 94.047856,59.973057 93.9896,81.563741 Z m 26.248762,0.07984 H 98.596967 V 52.923373 c 0,-1.170299 -0.948965,-2.119468 -2.11903,-2.119468 h -0.235022 c -0.681642,0 -1.321471,0.328218 -1.719933,0.88137 0,0 -21.443732,29.794195 -21.692694,30.140787 -0.248328,0.347225 -0.667066,0.920653 -0.667066,1.936984 0,1.208318 1.216933,2.119466 2.386999,2.119466 h 19.439358 v 7.77138 c 0,1.272314 1.03133,2.303851 2.304016,2.303851 1.272052,0 2.303372,-1.031537 2.303372,-2.303851 v -7.77138 h 6.172753 c 1.17069,0 2.11904,-0.948532 2.11904,-2.119466 0,-1.170302 -0.94835,-2.119468 -2.11904,-2.119468 z"
+       id="Fill-12"
+       fill="#121614"
+       sodipodi:nodetypes="ccccscsssccsscssscsss"
+       style="stroke-width:0.894777" />
+  </g>
+  <metadata
+     id="metadata668">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>skola24_logo_cmyk</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

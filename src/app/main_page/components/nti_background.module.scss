@@ -1,0 +1,26 @@
+.ntiBackground,
+.ntiBackground::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.ntiBackground {
+    background: var(--true-background);
+    z-index: -1;
+}
+.ntiBackground::after {
+    content: "";
+}
+
+.Bubble {
+    border-radius: 50%;
+    position: absolute;
+    width: 100px;
+    height: 100px;
+
+    background: var(--ntig-gradient);
+}

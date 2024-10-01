@@ -1,0 +1,73 @@
+.timetable {
+    height: fit-content;
+    margin: 0;
+    border-radius: var(--standard-border-radius);
+    overflow: hidden;
+
+    --top-bottom-timetable-padding: 1rem;
+    --half-hour-height: 1.5rem;
+    --header-height: 50px;
+}
+
+.header {
+    --header-icon-padding: 10px;
+    --header-icon-size: calc(var(--header-height) - 2 * var(--header-icon-padding));
+    position: relative;
+}
+
+.body {
+    display: flex;
+    position: relative;
+    /*max-height: 80vh;*/
+    overflow-y: auto;
+    /*overflow-x: hidden;*/
+    scrollbar-width: thin;
+}
+
+
+.timeColumn,
+.lessonColumn {
+    padding-top: var(--top-bottom-timetable-padding);
+    padding-bottom: var(--top-bottom-timetable-padding);
+}
+
+.timeColumn {
+
+    width: 7ch;
+    /*height: inherit;*/
+    display: flex;
+    flex-direction: column;
+    /*justify-content: space-between;*/
+    gap: var(--half-hour-height);
+    /*padding-top: 0.5em;*/
+    /*padding-bottom: 0.5em;*/
+    text-align: center;
+    background-color: var(--background-secondary);
+}
+
+.timeEntry {
+    line-height: 0;
+    font-family: var(--font-family-monospace);
+    font-size: 1.0em;
+}
+.halfHour {
+    color: var(--text-secondary);
+}
+
+.nowIndicator {
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: var(--text-inverted);
+    z-index: 1;
+    opacity: 0.5;
+}
+
+.lessonColumn {
+    width: calc(100% - 7ch);
+    position: relative;
+    background-color: var(--background);
+}
+
+
+
