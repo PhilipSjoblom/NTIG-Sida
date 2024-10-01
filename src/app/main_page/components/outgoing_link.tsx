@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./outgoing_link.module.scss"
+import app_config from "@/config";
 
 export interface OutgoingLinkProps {
     url: string;
@@ -56,8 +57,7 @@ function get_sl_url(location: GeolocationPosition): URL {
     url.searchParams.append('origLon', location.coords.longitude.toString());
 
     url.searchParams.append('destName', 'Huddinge sjukhus (Huddinge)');
-    // Taken from SLs site, should be constant
-    url.searchParams.append('destPlaceId', '{{ school_station_id }}');
+    url.searchParams.append('destPlaceId', app_config.school_station_id);
     // Bitmask?
     url.searchParams.append('transportTypes', '239');
 

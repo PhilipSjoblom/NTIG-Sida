@@ -5,6 +5,7 @@ import OutgoingLink, { OutgoingLinkProps, SLRouteLink } from './components/outgo
 import styles from './main_page.module.scss';
 import LessonTimetable from "./components/lesson_timetable"
 import "./main_page.scss";
+import Announcement from './components/announcement';
 
 
 export default function MainPage() {
@@ -44,6 +45,11 @@ export default function MainPage() {
             icon_url: "/quick_links/icalendar.png",
             title: "ICalendar",
         },
+        {
+            url: "https://sl.se/?mode=travelPlanner",
+            icon_url: "/quick_links/sl.png",
+            title: "SL",
+        }
     ];
 
     return (
@@ -58,9 +64,10 @@ export default function MainPage() {
                         {links.map((link, index) => (
                             <OutgoingLink key={index} {...link} />
                         ))}
-                        <SLRouteLink url="https://sl.se/?mode=travelPlanner" title="SL" />
+                        {/* <SLRouteLink url="https://sl.se/?mode=travelPlanner" title="SL" /> */}
                         {/* TODO: ICal */}
                     </div>
+                    <Announcement />
                 </div>
                 <div className={[styles.column3, styles.column].join(" ")}>
                 </div>
@@ -68,7 +75,4 @@ export default function MainPage() {
         </>
     );
 }
-
-        // {url:url_for('ical', class_name=class_name),
-        //         icon_url: "/quick_links/icalendar.png",
-        //         title:"Kalender (iCalendar)" },
+// c_ccb173b4b46532575a1a316f50fe4c947323594da40401a987d73b0c99f04ce2@group.calendar.google.com
