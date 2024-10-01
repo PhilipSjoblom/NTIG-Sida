@@ -29,7 +29,7 @@
      inkscape:deskcolor="#505050"
      showgrid="false"
      inkscape:zoom="3.6043186"
-     inkscape:cx="32.599782"
+     inkscape:cx="27.605773"
      inkscape:cy="75.326304"
      inkscape:window-width="1920"
      inkscape:window-height="1001"
@@ -81,16 +81,12 @@
        fill-rule="evenodd"
        id="path2"
        style="stroke-width:1.97526" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:21.3333px;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#e0e0e0;fill-opacity:0.618644;stroke:none;stroke-width:0.233;stroke-linecap:round;stroke-miterlimit:20;stroke-dasharray:none"
-       x="95.847473"
-       y="22.173458"
-       id="text428"><tspan
-         sodipodi:role="line"
-         id="tspan3375"
-         x="95.847473"
-         y="22.173458">Live</tspan></text>
+    <circle
+       style="fill:#ff0000;fill-opacity:0.355469;stroke-width:1.7643;stroke-linecap:round;stroke-miterlimit:20"
+       id="path351"
+       cx="133.06943"
+       cy="13.06879"
+       r="9.7153559" />
   </g>
   <metadata
      id="metadata668">

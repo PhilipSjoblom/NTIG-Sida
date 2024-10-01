@@ -13,3 +13,12 @@
     gap: var(--padding);
     padding: var(--padding);
 }
+
+.linksContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: flex-start;
+    gap: var(--padding);
+}
