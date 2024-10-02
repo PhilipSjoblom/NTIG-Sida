@@ -1,0 +1,140 @@
+.examCalendar {
+    width: 100%;
+    height: fit-content;
+    overflow: hidden;
+    border-radius: var(--standard-border-radius);
+
+    --header-height: 50px;
+}
+
+.body {
+    background-color: var(--background);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 5px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--background-tertiary) var(--background);
+
+    min-height: 400px;
+}
+
+@media (max-width: 800px) {
+    .body {
+        height: fit-content;
+        min-height: 100px;
+        max-height: 700px;
+    }
+}
+
+.examCard {
+    // Defaults 
+    --exam-base-colour-h: 0;
+    --exam-base-colour-s: 0%;
+
+    background-color: hsl(var(--exam-base-colour-h), var(--exam-base-colour-s), 33%);
+    position: relative;
+    border-radius: 5px;
+
+    --exam-time-height: 1em;
+    --padding: 4px;
+}
+@media (prefers-color-scheme: light) {
+    .examCard {
+        background-color: hsl(var(--exam-base-colour-h), var(--exam-base-colour-s), 66%);
+    }
+}
+
+.examInfo {
+    z-index: 1;
+    padding: var(--padding);
+    box-sizing: border-box;
+    margin-bottom: calc(var(--exam-time-height) + var(--padding)*2);
+    height: fit-content;
+    width: 100%;
+    overflow: hidden;
+
+    > * {
+        margin: 0;
+    }
+}
+
+.examTime {
+    width: 100%;
+    height: var(--exam-time-height);
+    line-height: var(--exam-time-height);
+    padding-bottom: var(--padding);
+    padding-top: var(--padding);
+    font-family: var(--font-family-monospace);
+    background-color: #0002;
+
+    padding: 0; // Where did this come from??
+
+    position: absolute;
+    bottom: 0;
+
+    > .examDate {
+        position: absolute;
+        left: var(--padding);
+    }
+    > .examStart {
+        position: absolute;
+        right: calc(var(--padding)*3 + 5ch + 2ch);
+    }
+    > .examEnd {
+        position: absolute;
+        right: var(--padding);
+    }
+    > .examSep {
+        position: absolute;
+        right: calc(var(--padding)*2 + 4ch);
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: calc(2ch);
+        height: calc(var(--exam-time-height) / 5);
+    
+        background-color: var(--text-secondary);
+        border-radius: 10px;
+    }
+}
+
+.teacherContact {
+    position: absolute;
+    right: var(--padding);
+    bottom: var(--exam-time-height);
+    text-decoration: none;
+    color: var(--text-secondary);
+}
+
+
+
+.header {
+    position: relative;
+}
+.classSelector, .dropdownArrow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    line-height: 100%;
+    font-size: 1.5em;
+    width: 1ch;
+    border: none;
+}
+.classSelector {
+    background: transparent;
+    color: transparent;
+}
+.dropdownArrow {
+    pointer-events: none;
+}
+.dropdownArrow > path {
+    fill: var(--text-primary);
+}
+.classSelector > option {
+    color: var(--text-inverted);
+    font-size: 1rem;
+}
+
+

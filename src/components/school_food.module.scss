@@ -1,11 +1,12 @@
-.announcement {
+.schoolFood {
     --header-height: 50px;
     width: 100%;
     border-radius: var(--standard-border-radius);
     text-align: center;
+    overflow: hidden;
 }
 
-.announcementBody {
+.foodBody {
     background-color: var(--background);
     padding: var(--padding);
     word-break: break-word;

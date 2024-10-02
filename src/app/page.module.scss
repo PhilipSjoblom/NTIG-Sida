@@ -1,0 +1,45 @@
+.classSelector,
+.manualInput {
+    backdrop-filter: blur(20px);
+}
+
+.manualInput {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--text-primary);
+    background-color: var(--background-secondary);
+}
+
+.classSelector {
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--text-primary);
+    background-color: var(--background);
+    color: var(--text-primary);
+}
+
+.classSelector>option {
+    color: var(--text);
+    font-size: 1rem;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    gap: 1rem;
+
+    font-size: 1.25rem;
+    color: var(--text-inverted);
+
+    >* {
+        width: 400px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+}

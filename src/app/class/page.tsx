@@ -1,14 +1,24 @@
 "use client";
 
-import NtiBackground from './components/nti_background';
-import OutgoingLink, { OutgoingLinkProps, SLRouteLink } from './components/outgoing_link';
-import styles from './main_page.module.scss';
-import LessonTimetable from "./components/lesson_timetable"
-import "./main_page.scss";
-import Announcement from './components/announcement';
+import Background from '../../components/background';
+import OutgoingLink, { OutgoingLinkProps, SLRouteLink } from '../../components/outgoing_link';
+import styles from './page.module.scss';
+import LessonTimetable from "../../components/lesson_timetable"
+import "./page.scss";
+import Announcement from '../../components/announcement';
+import SchoolFood from '../../components/school_food';
+import ExamCalendar from '../../components/exam_calendar';
+import { notFound, useSearchParams } from 'next/navigation'
+import { Suspense } from 'react';
 
 
-export default function MainPage() {
+function MainPage() {
+    const searchParams = useSearchParams();
+    const classId = searchParams.get("class");
+    if (!classId) {
+        return notFound();
+    }
+
     const links: OutgoingLinkProps[] = [
         {
             url: "https://sms.schoolsoft.se/nti/sso",
@@ -54,10 +64,10 @@ export default function MainPage() {
 
     return (
         <>
-            <NtiBackground />
+            <Background />
             <div className={styles.columns}>
                 <div className={[styles.column1, styles.column].join(" ")}>
-                    <LessonTimetable startHour={8} endHour={17} />
+                        <LessonTimetable startHour={8} endHour={17} />
                 </div>
                 <div className={[styles.column2, styles.column].join(" ")}>
                     <div className={styles.linksContainer}>
@@ -70,9 +80,18 @@ export default function MainPage() {
                     <Announcement />
                 </div>
                 <div className={[styles.column3, styles.column].join(" ")}>
+                    {/* <SchoolFood /> */}
+                        <ExamCalendar />
                 </div>
             </div>
         </>
     );
 }
-// c_ccb173b4b46532575a1a316f50fe4c947323594da40401a987d73b0c99f04ce2@group.calendar.google.com
+
+export default function Page() {
+    return (
+        <Suspense>
+            <MainPage />
+        </Suspense>
+    )
+}

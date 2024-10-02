@@ -1,6 +1,10 @@
+'use client'
+
 import styles from "./lesson_timetable.module.scss";
 import { default as Lesson, LessonData } from "./lesson";
 import { useEffect, useRef, useState } from "react";
+import app_config from "@/config";
+import { useSearchParams } from "next/navigation";
 
 function getWeek(date: Date): number {
     const firstJan = new Date(date.getFullYear(), 0, 1);
@@ -14,13 +18,14 @@ interface RawLessonData {
     dayOfWeekNumber: number;
 }
 
-async function fetchLessons(classid: string): Promise<LessonData[]> {
-    const url = `https://skola24proxy.philip-sjoblom.workers.dev/?classId=${classid}`;
+async function fetchLessons(classid: string): Promise<LessonData[] | null> {
+    const url = `${app_config.proxy_url}?classId=${classid}`;
     const response = await fetch(url);
+    console.log(response);
 
-    if (!response.ok) {
-        throw new Error("Failed to fetch lessons");
-    }
+    if (!response.ok) 
+        return null;
+    
     const rawData: RawLessonData[] = await response.json();
 
     return rawData.map((lesson) => ({
@@ -62,21 +67,28 @@ function TimeHeader() {
     </>
 }
 
-function hashString(str: string): number {  
-    let hash = 0;  
-    for (let i = 0; i < str.length; i++) {  
+function hashString(str: string): number {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
         const char = str.charCodeAt(i);
         hash = ((hash << 5) - hash) + char;
         hash |= 0;
-    }  
-    return hash;  
+    }
+    return hash;
 }
 
 export function TimetableItems({ startHour }: { startHour: number }) {
-    const [lessons, setLessons] = useState<LessonData[]>([]);
+    const [lessons, setLessons] = useState<LessonData[] | null>([]);
+    const searchParams = useSearchParams();
 
     useEffect(() => {
-        fetchLessons("te22e").then(data => {
+        const classid = searchParams.get("class");
+        if (!classid) return;
+        fetchLessons(classid).then(data => {
+            if (!data) {
+                setLessons(null);
+                return;
+            }
             data = data.filter(lesson => lesson.dayOfWeek === new Date().getDay());
             data = fixOverlaps(data);
             data.forEach(lesson => {
@@ -88,9 +100,12 @@ export function TimetableItems({ startHour }: { startHour: number }) {
             });
             setLessons(data);
         });
-    }, []);
-    if (!lessons) return <div>Loading...</div>;
+    }, [searchParams, startHour]);
 
+    if (!searchParams.get("class")) return <h3 className={styles.statusText}>Välj en klass</h3>;
+    if (lessons == null) return <h3 className={styles.statusText}>Kunde inte ladda lektioner för klassen</h3>;
+    if (!lessons) return <h3 className={styles.statusText}>Laddar...</h3>;
+    
     return (
         <>
             {lessons.map((lesson, index) => (
@@ -106,23 +121,24 @@ interface LessonTimeTableProps {
 }
 
 export default function LessonTimetable({ startHour, endHour }: LessonTimeTableProps) {
-    const nowIndicatorRef = useRef<HTMLDivElement>(null);
-
-    const updateTime = () => {
-        const now = new Date();
-        if (nowIndicatorRef.current) {
-            const total_hours = now.getHours() + now.getMinutes() / 60;
-            const mult = (total_hours - startHour) * 2;
-            nowIndicatorRef.current.style.top = `calc(var(--top-bottom-timetable-padding) + var(--half-hour-height) * ${mult})`;
-        }
-    };
+    const [indicatorTopMult, setIndicatorTopMult] = useState<number | null>(null);
 
     useEffect(() => {
+        const updateTime = () => {
+            const now = new Date();
+            const total_hours = now.getHours() + now.getMinutes() / 60;
+            if (total_hours < startHour || total_hours > endHour) {
+                setIndicatorTopMult(null);
+                return;
+            }
+            const mult = (total_hours - startHour) * 2;
+            setIndicatorTopMult(mult);
+        };
+
         updateTime();
         const interval = setInterval(updateTime, 60 * 1000);
-
         return () => clearInterval(interval);
-    }, []);
+    }, [endHour, startHour]);
 
     return (
         <div className={[styles.timetable, "glass"].join(" ")}>
@@ -130,7 +146,16 @@ export default function LessonTimetable({ startHour, endHour }: LessonTimeTableP
                 <TimeHeader />
             </div>
             <div className={styles.body}>
-                <div id="now-indicator" className={styles.nowIndicator} ref={nowIndicatorRef}></div>
+                {indicatorTopMult === null ? null : (
+                    <div
+                        id="now-indicator"
+                        className={styles.nowIndicator}
+                        style={{
+                            top: `calc(var(--top-bottom-timetable-padding) + var(--half-hour-height) * ${indicatorTopMult})`,
+                        }}
+                    />
+                )}
+
                 <div className={styles.timeColumn}>
                     {Array.from({ length: (endHour - startHour) * 2 + 1 }, (_, i) => {
                         const hour = Math.floor(i / 2) + startHour;
@@ -158,10 +183,12 @@ function doOverlap(a: LessonData, b: LessonData): boolean {
         && timeToHours(a.end) > timeToHours(b.start)
     );
 }
+
 function timeToHours(time: string): number {
     const [hours, minutes] = time.split(":").map(Number);
     return hours + minutes / 60;
 }
+
 function fixOverlaps(lessons: LessonData[]): LessonData[] {
     // Sort by overlap count
     lessons = lessons.sort(
@@ -174,17 +201,9 @@ function fixOverlaps(lessons: LessonData[]): LessonData[] {
 
     const overlaps = new Map<LessonData, number>();
     lessons.forEach(lesson => {
-        let to_update: LessonData[] = [];
-        lessons.forEach(other => {
-            if (doOverlap(lesson, other))
-                to_update.push(other);
-        });
-        overlaps.set(lesson, to_update.length);
-        for (let other of to_update) {
-            overlaps.set(other, to_update.length);
-        }
+        overlaps.set(lesson, lessons.filter(other => doOverlap(lesson, other)).length);
     });
-    for (let [lesson, overlap_count] of Array.from(overlaps.entries())) {
+    for (const [lesson, overlap_count] of Array.from(overlaps.entries())) {
         lesson.width = 100 / overlap_count + "%";
     }
 
@@ -199,4 +218,3 @@ function fixOverlaps(lessons: LessonData[]): LessonData[] {
 
     return lessons;
 }
-
