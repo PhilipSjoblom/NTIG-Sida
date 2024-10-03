@@ -133,7 +133,7 @@
 @container (max-height: 50px) {
     .lessonTitle {
         bottom: 0;
-        right: var(--lesson-padding);
+        // right: var(--lesson-padding);
         left: unset;
     }
     .lessonTeacher {

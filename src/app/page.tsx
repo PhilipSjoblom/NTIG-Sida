@@ -15,8 +15,8 @@ export default function Page() {
                 <select className={styles.classSelector} onChange={e => {
                     if (e.target.value === "") return;
                     router.push(`/class/?class=${e.target.value}`);
-                }}>
-                    <option value="" disabled={true} selected={true}>
+                }} defaultValue="">
+                    <option value="" disabled={true}>
                         Välj en klass
                     </option>
                     {getClasses(true).map((class_name, index) => (
