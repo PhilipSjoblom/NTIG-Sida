@@ -80,8 +80,8 @@ function MainPage() {
                     <Announcement />
                 </div>
                 <div className={[styles.column3, styles.column].join(" ")}>
-                    {/* <SchoolFood /> */}
-                        <ExamCalendar />
+                    <SchoolFood />
+                    <ExamCalendar />
                 </div>
             </div>
         </>

@@ -98,12 +98,46 @@ const headers = {
     "Access-Control-Allow-Methods": "GET, OPTIONS",
     "Access-Control-Max-Age": "86400",
     "Vary": "Origin",
-    "Content-Type": "application/json",
 };
 
 
 export default {
     async fetch(request: Request): Promise<Response> {
+        const url = new URL(request.url);
+        if (url.pathname === "/skola24")
+            return this.fetchSkola24(request);
+        if (url.pathname === "/food")
+            return this.fetchFood(request);
+
+        return new Response("Not found", {
+            headers: headers,
+            status: 404,
+        });
+    },
+
+    async fetchFood(request: Request): Promise<Response> {
+        if (request.method === "OPTIONS")
+            return new Response(null, { headers: headers });
+
+        const response = await fetch(
+            "https://skolmaten.se/nti-gymnasiet-sodertorn/rss/days/",
+        )
+        if (!response.ok) {
+            return new Response("Failed to fetch food", {
+                headers: headers,
+                status: 500,
+            });
+        }
+        const text = await response.text();
+        return new Response(text, {
+            headers: {
+                ...headers,
+                "Content-Type": "text/html",
+            }
+        });
+    },
+
+    async fetchSkola24(request: Request): Promise<Response> {
         const url = new URL(request.url);
         const classId = url.searchParams.get("classId");
         if (!classId)
@@ -116,7 +150,12 @@ export default {
 
         try {
             const timetable = await getTimetable(classId);
-            return new Response(JSON.stringify(timetable), { headers: headers });
+            return new Response(JSON.stringify(timetable), {
+                headers: {
+                    ...headers,
+                    "Content-Type": "application/json",
+                }
+            });
         } catch (error) {
             return new Response(
                 "Failed to fetch timetable",

@@ -1,28 +1,33 @@
 import { useEffect, useState } from "react";
 import styles from "./school_food.module.scss";
+import app_config from "@/config";
+import DOMPurify from "dompurify";
 
 export default function SchoolFood() {
     const [food, setFood] = useState<string | null>(null);
     
     useEffect(() => {
-        // TODO: Proxy through cloudflare worker... or just request API access
-        fetch("https://skolmaten.se/nti-gymnasiet-sodertorn/rss/days/")
-            .then(response => response.text())
-            .then(text => {
-                const parser = new DOMParser();
-                const xml = parser.parseFromString(text, "text/xml");
-                console.log(xml);
-                // const items = xml.getElementById
+        const url = `${app_config.proxy_url}/food`;
+        fetch(url).then((response) => {
+            if (!response.ok) {
+                console.error("Failed to fetch food data");
+                return;
+            }
+            response.text().then((text) => {
+                const parsed = new DOMParser().parseFromString(text, "text/xml");
+                let description = parsed.querySelector("item description")?.textContent;
+                if (description)
+                    description = DOMPurify.sanitize(description);
 
+                setFood(description ?? "Failed to fetch food data");
             })
-            .catch(() => setFood(null))
+        });
     }, [])
 
     return (
         <div className={styles.schoolFood}>
             <div className="header">Dagens mat</div>
-            <div className={styles.foodBody}>
-                WIP
+            <div className={styles.foodBody} dangerouslySetInnerHTML={{ __html: food ?? "Laddar..." }}>
             </div>
         </div>
     )
