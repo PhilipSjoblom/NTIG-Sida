@@ -63,7 +63,7 @@ function ExamCard({ exam }: { exam: Exam }) {
 export default function ExamCalendar() {
     const [exams, setExams] = useState<Exam[]>([]);
     const searchParams = useSearchParams();
-    const [selectedClass, setSelectedClass] = useState<string | null>(searchParams.get("exam"));
+    const [selectedClass, setSelectedClass] = useState<string | null>(searchParams.get("exam") ?? searchParams.get("class") ?? null);
 
     const createQueryString = useCallback(
         (name: string, value: string) => {
