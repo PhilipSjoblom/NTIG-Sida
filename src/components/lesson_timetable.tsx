@@ -23,9 +23,9 @@ async function fetchLessons(classid: string): Promise<LessonData[] | null> {
     const response = await fetch(url);
     console.log(response);
 
-    if (!response.ok) 
+    if (!response.ok)
         return null;
-    
+
     const rawData: RawLessonData[] = await response.json();
 
     return rawData.map((lesson) => ({
@@ -89,7 +89,9 @@ export function TimetableItems({ startHour }: { startHour: number }) {
                 setLessons(null);
                 return;
             }
-            data = data.filter(lesson => lesson.dayOfWeek === new Date().getDay());
+            data = data
+                .filter(lesson => lesson.dayOfWeek === new Date().getDay())
+                .filter(lesson => lesson.texts.length);
             data = fixOverlaps(data);
             data.forEach(lesson => {
                 const lessonStart = timeToHours(lesson.start);
@@ -105,7 +107,7 @@ export function TimetableItems({ startHour }: { startHour: number }) {
     if (!searchParams.get("class")) return <h3 className={styles.statusText}>Välj en klass</h3>;
     if (lessons == null) return <h3 className={styles.statusText}>Kunde inte ladda lektioner för klassen</h3>;
     if (!lessons) return <h3 className={styles.statusText}>Laddar...</h3>;
-    
+
     return (
         <>
             {lessons.map((lesson, index) => (
