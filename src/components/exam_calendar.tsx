@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import styles from './exam_calendar.module.scss'
 import app_config from '@/config'
 import { getClasses } from '@/utils';
@@ -63,7 +63,17 @@ function ExamCard({ exam }: { exam: Exam }) {
 export default function ExamCalendar() {
     const [exams, setExams] = useState<Exam[]>([]);
     const searchParams = useSearchParams();
-    const [selectedClass, setSelectedClass] = useState<string | null>(searchParams.get("class"));
+    const [selectedClass, setSelectedClass] = useState<string | null>(searchParams.get("exam"));
+
+    const createQueryString = useCallback(
+        (name: string, value: string) => {
+            const params = new URLSearchParams(searchParams.toString())
+            params.set(name, value)
+
+            return params.toString()
+        },
+        [searchParams]
+    )
 
     useEffect(() => {
         fetch(
@@ -93,7 +103,10 @@ export default function ExamCalendar() {
             <div className={[styles.header, "header"].join(" ")}>
                 <span>Provkalender ({exams.length})</span>
 
-                <select className={styles.classSelector} onChange={e => setSelectedClass(e.target.value)}>
+                <select className={styles.classSelector} onChange={e => {
+                    setSelectedClass(e.target.value);
+                    window.history.pushState({}, "", `?${createQueryString("exam", e.target.value)}`);
+                }}>
                     <option value="" disabled={true}>
                         Välj en klass
                     </option>
