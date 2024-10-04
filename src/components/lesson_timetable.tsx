@@ -91,7 +91,7 @@ export function TimetableItems({ startHour }: { startHour: number }) {
             }
             data = data
                 .filter(lesson => lesson.dayOfWeek === new Date().getDay())
-                .filter(lesson => lesson.texts.length);
+                .filter(lesson => lesson.texts.filter(Boolean).length > 0);
             data = fixOverlaps(data);
             data.forEach(lesson => {
                 const lessonStart = timeToHours(lesson.start);
