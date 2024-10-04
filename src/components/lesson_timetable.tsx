@@ -105,7 +105,7 @@ export function TimetableItems({ startHour }: { startHour: number }) {
     }, [searchParams, startHour]);
 
     if (!searchParams.get("class")) return <h3 className={styles.statusText}>Välj en klass</h3>;
-    if (lessons == null) return <h3 className={styles.statusText}>Kunde inte ladda lektioner för klassen</h3>;
+    if (lessons == null) return <h3 className={styles.statusText}>Kunde inte ladda lektioner</h3>;
     if (!lessons) return <h3 className={styles.statusText}>Laddar...</h3>;
 
     return (
