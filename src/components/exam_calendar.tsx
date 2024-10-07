@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import styles from './exam_calendar.module.scss'
-import app_config from '@/config'
 import { getClasses } from '@/utils';
 import { useSearchParams } from 'next/navigation';
 
@@ -91,8 +90,9 @@ export default function ExamCalendar() {
     )
 
     useEffect(() => {
+        if (!process.env.NEXT_PUBLIC_EXAM_GCAL_URL) return;
         fetch(
-            app_config.exam_gcal_url,
+            process.env.NEXT_PUBLIC_EXAM_GCAL_URL,
             { headers: { "Accept": "application/json" } }
         )
             .then(response => response.json())

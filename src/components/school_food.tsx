@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import styles from "./school_food.module.scss";
-import app_config from "@/config";
 import DOMPurify from "dompurify";
 
 export default function SchoolFood() {
     const [food, setFood] = useState<string | null>(null);
     
     useEffect(() => {
-        const url = `${app_config.proxy_url}/food`;
+        if (!process.env.NEXT_PUBLIC_PROXY_URL) return;
+        const url = `${process.env.NEXT_PUBLIC_PROXY_URL}/food`;
         fetch(url).then((response) => {
             if (!response.ok) {
                 console.error("Failed to fetch food data");

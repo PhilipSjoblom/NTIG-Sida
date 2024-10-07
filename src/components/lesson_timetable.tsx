@@ -3,7 +3,6 @@
 import styles from "./lesson_timetable.module.scss";
 import { default as Lesson, LessonData } from "./lesson";
 import { useEffect, useRef, useState } from "react";
-import app_config from "@/config";
 import { useSearchParams } from "next/navigation";
 
 function getWeek(date: Date): number {
@@ -19,7 +18,7 @@ interface RawLessonData {
 }
 
 async function fetchLessons(classid: string): Promise<LessonData[] | null> {
-    const url = `${app_config.proxy_url}/skola24?classId=${classid}`;
+    const url = `${process.env.NEXT_PUBLIC_PROXY_URL}/skola24?classId=${classid}`;
     const response = await fetch(url);
     console.log(response);
 
