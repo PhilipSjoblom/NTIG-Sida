@@ -51,11 +51,6 @@ function MainPage() {
             title: "Skrivguiden"
         },
         {
-            url: "https://www.krisinformation.se/",
-            icon_url: "/quick_links/icalendar.png",
-            title: "ICalendar",
-        },
-        {
             url: "https://sl.se/?mode=travelPlanner",
             icon_url: "/quick_links/sl.png",
             title: "SL",
