@@ -33,6 +33,21 @@ function generateExamStyles(daysUntil: number): React.CSSProperties {
     } as React.CSSProperties;
 }
 
+function getExamDate(exam: Exam): string {
+    const daysUntil = (exam.start.getTime() - Date.now()) / (1000 * 60 * 60 * 24);
+    if (daysUntil < 0) {
+        return "Idag";
+    } else if (daysUntil < 1) {
+        return "Imorgon";
+    } else if (daysUntil < 2) {
+        return "I övermorgon";
+    } else if (daysUntil < 7) {
+        return `På ${exam.start.toLocaleDateString('sv-se', { weekday: 'long' })}`;
+    } else {
+        return exam.start.toLocaleDateString('sv-se', { weekday: 'long' });
+    }
+}
+
 
 function ExamCard({ exam }: { exam: Exam }) {
     return (
@@ -44,7 +59,7 @@ function ExamCard({ exam }: { exam: Exam }) {
                 <h3>{exam.title}</h3>
             </div>
             <div className={styles.examTime}>
-                <span className={styles.examDate}>{exam.start.toLocaleDateString('sv-se')}</span>
+                <span className={styles.examDate}>{getExamDate(exam)}</span>
                 {true ? <>
                     <span className={styles.examStart}>{exam.start.toLocaleTimeString('sv-se', { hour: '2-digit', minute: '2-digit' })}</span>
                     <span className={styles.examSep}></span>
@@ -106,7 +121,7 @@ export default function ExamCalendar() {
                 <select className={styles.classSelector} onChange={e => {
                     setSelectedClass(e.target.value);
                     window.history.pushState({}, "", `?${createQueryString("exam", e.target.value)}`);
-                }}>
+                }} defaultValue={selectedClass ?? ""}>
                     <option value="" disabled={true}>
                         Välj en klass
                     </option>

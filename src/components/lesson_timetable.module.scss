@@ -32,7 +32,6 @@
 }
 
 .timeColumn {
-
     width: 7ch;
     /*height: inherit;*/
     display: flex;
@@ -67,6 +66,7 @@
     width: calc(100% - 7ch);
     position: relative;
     background-color: var(--background);
+    overflow: hidden;
 }
 
 .statusText {
