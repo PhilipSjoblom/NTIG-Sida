@@ -116,7 +116,7 @@ export default function ExamCalendar() {
     return (
         <div className={[styles.examCalendar, "glass"].join(" ")}>
             <div className={[styles.header, "header"].join(" ")}>
-                <span>Provkalender ({exams.length})</span>
+                <span>Prov ({exams.length})</span>
 
                 <select className={styles.classSelector} onChange={e => {
                     setSelectedClass(e.target.value);

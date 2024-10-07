@@ -20,10 +20,10 @@
 }
 
 .details {
-    width: 100%;
+    // width: 100%;
     height: calc(100% - (var(--lesson-time-height) + var(--lesson-padding)*2));
     position: relative;
-    overflow-y: auto;
+    overflow: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--background-tertiary) var(--background);
 }
@@ -35,7 +35,7 @@
     top: calc(var(--lesson-padding) / 2);
     overflow-y: auto;
 
-    line-break: anywhere;
+    word-break: break-all;
     max-width: calc(100% - var(--lesson-padding)*2);
     max-height: 2lh;
 }
@@ -43,6 +43,10 @@
     position: absolute;
     bottom: 0;
     left: var(--lesson-padding);
+
+    width: calc(100% - var(--lesson-padding)*2 - 3ch);
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .lessonTeacher {
     position: absolute;

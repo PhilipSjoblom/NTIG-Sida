@@ -40,8 +40,8 @@ export default function Lesson(
         >
             <div className={styles.details}>
                 { props.texts.length >= 1 ? <h4 className={styles.lessonTitle}>{ props.texts[0] }</h4> : null }
-                { props.texts.length >= 2 ? <div className={styles.lessonRoom}>{ props.texts[1] }</div> : null }
-                { props.texts.length >= 3 ? <div className={styles.lessonTeacher}>{ props.texts[2] }</div> : null }
+                { props.texts.length >= 2 ? <span className={styles.lessonRoom}>{ props.texts[1] }</span> : null }
+                { props.texts.length >= 3 ? <span className={styles.lessonTeacher}>{ props.texts[2] }</span> : null }
             </div>
             <div className={styles.timeContainer}>
                 <span className={[styles.time, styles.timeStart].join(" ")}>{props.start}</span>
