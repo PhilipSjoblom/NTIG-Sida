@@ -24,6 +24,9 @@ export default function SchoolFood() {
         });
     }, [])
 
+    if (new Date().getDay() > 5) 
+        return null;
+    
     return (
         <div className={styles.schoolFood}>
             <div className="header">Dagens mat</div>
