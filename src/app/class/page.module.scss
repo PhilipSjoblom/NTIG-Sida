@@ -26,3 +26,29 @@
     align-content: flex-start;
     gap: var(--page-padding);
 }
+
+@media (max-width: 800px) {
+    .columns {
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: auto auto auto;
+        padding: var(--padding);
+    }
+    .column {
+        grid-column: 1 !important;
+        min-height: unset;
+    }
+    .column2 {
+        grid-row: 1;
+    }
+    .column1 {
+        grid-row: 2;
+    }
+    .column3 {
+        grid-row: 3;
+    }
+
+    .linksContainer {
+        justify-content: center;
+    }
+}
