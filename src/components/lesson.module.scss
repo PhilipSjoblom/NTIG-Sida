@@ -17,6 +17,7 @@
     font-size: calc(var(--lesson-time-height) * 1.0);
 
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 .details {
@@ -104,6 +105,13 @@
         width: calc(100% - calc(5ch + var(--lesson-padding)*2));
         height: 100%;
     }
+    .lessonTitle {
+        // max-width: calc(100% - var(--lesson-padding)*2 - 2.2ch);
+    }
+    .lessonRoom {
+        display: none;
+    }
+
     .details > * {
         font-family: var(--font-family);
     }

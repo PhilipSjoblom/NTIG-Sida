@@ -54,7 +54,12 @@ function MainPage() {
             url: "https://sl.se/?mode=travelPlanner",
             icon_url: "/quick_links/sl.png",
             title: "SL",
-        }
+        },
+        {
+            url: "https://classroom.google.com/h",
+            icon_url: "/quick_links/classroom.png",
+            title: "Google Classroom",
+        },
     ];
 
     return (
