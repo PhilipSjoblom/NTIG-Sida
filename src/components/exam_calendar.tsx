@@ -113,10 +113,12 @@ export default function ExamCalendar() {
             });
     }, []);
 
+    const selected = (exam: Exam) => !selectedClass || exam.title.toLowerCase().includes(selectedClass.toLowerCase());
+
     return (
         <div className={[styles.examCalendar, "glass"].join(" ")}>
             <div className={[styles.header, "header"].join(" ")}>
-                <span>Prov ({exams.length})</span>
+                <span>Prov ({exams.filter(selected).length})</span>
 
                 <select className={styles.classSelector} onChange={e => {
                     setSelectedClass(e.target.value);
@@ -133,7 +135,7 @@ export default function ExamCalendar() {
             </div>
             <div className={styles.body}>
                 {exams
-                    .filter((exam: Exam) => !selectedClass || exam.title.toLowerCase().includes(selectedClass.toLowerCase()))
+                    .filter(selected)
                     .map((exam, index) => (
                         <ExamCard key={index} exam={exam} />
                     ))}

@@ -33,11 +33,13 @@
     position: absolute;
     left: var(--lesson-padding);
     top: calc(var(--lesson-padding) / 2);
-    overflow-y: auto;
 
     word-break: break-all;
     max-width: calc(100% - var(--lesson-padding)*2);
     max-height: 2lh;
+    
+    overflow-y: auto;
+    scrollbar-width: thin;
 }
 .lessonRoom {
     position: absolute;
@@ -132,5 +134,32 @@
 
         height: calc(100% - 3lh - var(--lesson-padding)*2);
         width: calc(var(--lesson-time-height) / 5);
+    }
+}
+
+
+@container (max-height: 30px) {
+    .lessonRoom {
+        display: none;
+    }
+    .timeDivider {
+        display: none;
+    }
+    .details {
+        width: calc(100% - calc(5ch + var(--lesson-padding)*2));
+    }
+    .timeContainer {
+        width: calc((5ch + var(--lesson-padding)*2) * 2);
+        .timeEnd {
+            text-align: right;
+        }
+        .timeStart {
+            text-align: left;
+        }
+        .timeStart, .timeEnd {
+            top: 50%;
+            transform: translateY(-50%);
+            bottom: unset;
+        }
     }
 }

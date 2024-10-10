@@ -32,7 +32,7 @@
         display: grid;
         grid-template-columns: 100%;
         grid-template-rows: auto auto auto;
-        padding: var(--padding);
+        padding: var(--page-padding);
     }
     .column {
         grid-column: 1 !important;

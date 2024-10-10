@@ -8,8 +8,9 @@
 
 .announcementBody {
     background-color: var(--background);
-    padding: var(--padding);
+    padding: var(--page-padding);
     word-break: break-word;
     overflow-x: hidden;
     overflow-y: auto;
+    min-height: 4em;
 }
