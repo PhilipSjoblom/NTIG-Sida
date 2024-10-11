@@ -101,7 +101,6 @@ export default function ExamCalendar() {
         )
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 setExams(
                     data.items
                         .map((cEvent: GCalEvent) => ({

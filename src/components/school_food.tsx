@@ -1,11 +1,20 @@
+'use client';
+
 import { useEffect, useState } from "react";
 import styles from "./school_food.module.scss";
 import DOMPurify from "dompurify";
 
 export default function SchoolFood() {
-    const [food, setFood] = useState<string | null>(null);
+    let cached = localStorage.getItem("food");
+    let cachedDate = localStorage.getItem("foodDate");
+    if (cachedDate !== new Date().toLocaleDateString("sv-SE")) 
+        cached = null;
+
+    const [food, setFood] = useState<string | null>(cached);
     
     useEffect(() => {
+        if (cached) return;
+
         if (!process.env.NEXT_PUBLIC_PROXY_URL) return;
         const url = `${process.env.NEXT_PUBLIC_PROXY_URL}/food`;
         fetch(url).then((response) => {
@@ -20,6 +29,10 @@ export default function SchoolFood() {
                     description = DOMPurify.sanitize(description);
 
                 setFood(description ?? "Failed to fetch food data");
+                if (description){
+                    localStorage.setItem("food", description);
+                    localStorage.setItem("foodDate", new Date().toLocaleDateString("sv-SE"));
+                }
             })
         });
     }, [])

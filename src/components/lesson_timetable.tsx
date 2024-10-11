@@ -20,7 +20,6 @@ interface RawLessonData {
 async function fetchLessons(classid: string): Promise<LessonData[] | null> {
     const url = `${process.env.NEXT_PUBLIC_PROXY_URL}/skola24?classId=${classid}`;
     const response = await fetch(url);
-    console.log(response);
 
     if (!response.ok)
         return null;
