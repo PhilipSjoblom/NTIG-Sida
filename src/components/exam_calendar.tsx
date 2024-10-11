@@ -49,6 +49,11 @@ function getExamDate(exam: Exam): string {
 
 
 function ExamCard({ exam }: { exam: Exam }) {
+    const teacherNames = exam.teacher_mail && exam.teacher_mail
+        .split("@")[0]
+        .split(".")
+        .map(name => name.charAt(0).toUpperCase() + name.slice(1));
+
     return (
         <div
             className={styles.examCard}
@@ -59,15 +64,14 @@ function ExamCard({ exam }: { exam: Exam }) {
             </div>
             <div className={styles.examTime}>
                 <span className={styles.examDate}>{getExamDate(exam)}</span>
-                {true ? <>
+                {exam.hasTime ? <>
                     <span className={styles.examStart}>{exam.start.toLocaleTimeString('sv-se', { hour: '2-digit', minute: '2-digit' })}</span>
                     <span className={styles.examSep}></span>
                     <span className={styles.examEnd}>{exam.end.toLocaleTimeString('sv-se', { hour: '2-digit', minute: '2-digit' })}</span>
                 </> : null}
             </div>
-
-            {exam.teacher_mail ? <a href={`mailto:${exam.teacher_mail}`} className={styles.teacherContact}>
-                {exam.teacher_mail.split("@")[0].split(".").map(name => name.charAt(0).toUpperCase() + name.slice(1)).join(" ")}
+            {teacherNames ? <a href={`mailto:${exam.teacher_mail}`} className={styles.teacherContact}>
+                {teacherNames.join(" ")}
             </a> : null}
         </div>
     )
