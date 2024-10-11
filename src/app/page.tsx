@@ -4,12 +4,14 @@ import { getClasses } from '@/utils';
 import styles from './page.module.scss';
 import Background from '@/components/background';
 import { useRouter } from 'next/navigation';
+import SourceMessage from '@/components/source_message';
 
 export default function Page() {
     const router = useRouter();
 
     return (
         <>
+            <SourceMessage />
             <Background />
             <div className={styles.container}>
                 <select className={styles.classSelector} onChange={e => {

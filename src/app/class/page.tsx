@@ -10,6 +10,7 @@ import SchoolFood from '../../components/school_food';
 import ExamCalendar from '../../components/exam_calendar';
 import { notFound, useSearchParams } from 'next/navigation'
 import { Suspense } from 'react';
+import SourceMessage from '@/components/source_message';
 
 
 function MainPage() {
@@ -64,6 +65,7 @@ function MainPage() {
 
     return (
         <>
+            <SourceMessage />
             <Background />
             <div className={styles.columns}>
                 <div className={[styles.column1, styles.column].join(" ")}>
