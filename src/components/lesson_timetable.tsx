@@ -75,13 +75,28 @@ function hashString(str: string): number {
     return hash;
 }
 
+interface CachedLessonData {
+    lessons: LessonData[];
+    date: string;
+}
+
 export function TimetableItems({ startHour }: { startHour: number }) {
+    const cachedStr = localStorage.getItem("lessons");
+    let cachedData: { [classid: string]: CachedLessonData } | null = cachedStr ? JSON.parse(cachedStr) : null;
+
     const [lessons, setLessons] = useState<LessonData[] | null>([]);
     const searchParams = useSearchParams();
 
     useEffect(() => {
         const classid = searchParams.get("class");
         if (!classid) return;
+
+        if (cachedData && cachedData[classid] && cachedData[classid].date === new Date().toLocaleDateString("sv-SE")) {
+            console.log("Using cached data");
+            setLessons(cachedData[classid].lessons);
+            return;
+        }
+
         fetchLessons(classid).then(data => {
             if (!data) {
                 setLessons(null);
@@ -99,6 +114,9 @@ export function TimetableItems({ startHour }: { startHour: number }) {
                 lesson.hue = hashString(lesson.texts.join("")) % 360 + "deg";
             });
             setLessons(data);
+            if (!cachedData) cachedData = {};
+            cachedData[classid] = { lessons: data, date: new Date().toLocaleDateString("sv-SE") };
+            localStorage.setItem("lessons", JSON.stringify(cachedData));
         });
     }, [searchParams, startHour]);
 
