@@ -28,7 +28,7 @@ export default function SchoolFood() {
         return null;
     
     return (
-        <div className={styles.schoolFood}>
+        <div className={[styles.schoolFood, "glass"].join(" ")}>
             <div className="header">Dagens mat</div>
             <div className={styles.foodBody} dangerouslySetInnerHTML={{ __html: food ?? "Laddar..." }}>
             </div>
