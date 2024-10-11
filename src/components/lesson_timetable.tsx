@@ -92,7 +92,6 @@ export function TimetableItems({ startHour }: { startHour: number }) {
         if (!classid) return;
 
         if (cachedData && cachedData[classid] && cachedData[classid].date === new Date().toLocaleDateString("sv-SE")) {
-            console.log("Using cached data");
             setLessons(cachedData[classid].lessons);
             return;
         }
