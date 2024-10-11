@@ -16,3 +16,11 @@
 
     background: var(--ntig-gradient);
 }
+
+@media (prefers-reduced-motion) {
+    .bubble {
+        display: none;
+    }
+}
+
+
