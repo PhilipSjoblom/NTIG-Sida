@@ -1,10 +1,12 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import styles from "./school_food.module.scss";
 import DOMPurify from "dompurify";
 
 export default function SchoolFood() {
+    if (typeof window === "undefined") return null;
+
     let cached = localStorage.getItem("food");
     let cachedDate = localStorage.getItem("foodDate");
     if (cachedDate !== new Date().toLocaleDateString("sv-SE")) 
@@ -43,8 +45,7 @@ export default function SchoolFood() {
     return (
         <div className={[styles.schoolFood, "glass"].join(" ")}>
             <div className="header">Dagens mat</div>
-            <div className={styles.foodBody} dangerouslySetInnerHTML={{ __html: food ?? "Laddar..." }}>
-            </div>
+            <div className={styles.foodBody} dangerouslySetInnerHTML={{ __html: food ?? "Laddar..." }} />                
         </div>
     )
 }

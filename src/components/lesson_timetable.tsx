@@ -2,7 +2,7 @@
 
 import styles from "./lesson_timetable.module.scss";
 import { default as Lesson, LessonData } from "./lesson";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 function getWeek(date: Date): number {
@@ -35,35 +35,6 @@ async function fetchLessons(classid: string): Promise<LessonData[] | null> {
 }
 
 
-function TimeHeader() {
-    const clockRef = useRef<HTMLDivElement>(null);
-    const dateRef = useRef<HTMLDivElement>(null);
-
-    const updateTime = () => {
-        const now = new Date();
-        if (clockRef.current) {
-            clockRef.current.textContent = now.toLocaleTimeString('sv-se', { hour: '2-digit', minute: '2-digit' })
-        }
-        if (dateRef.current) {
-            const weekNum = getWeek(now);
-            let weekday = now.toLocaleDateString('sv-se', { weekday: 'long' });
-            weekday = weekday.charAt(0).toUpperCase() + weekday.slice(1);
-
-            dateRef.current.textContent = `${weekday} v${weekNum} ${now.getFullYear()} `;
-        }
-    };
-
-    useEffect(() => {
-        updateTime();
-        const interval = setInterval(updateTime, 5 * 1000);
-        return () => clearInterval(interval);
-    }, []);
-
-    return <>
-        <span id="current-date" ref={dateRef}></span>
-        <span id="current-time" ref={clockRef}></span>
-    </>
-}
 
 function hashString(str: string): number {
     let hash = 0;
@@ -80,11 +51,14 @@ interface CachedLessonData {
     date: string;
 }
 
-export function TimetableItems({ startHour }: { startHour: number }) {
+export function TimetableItems({ startHour, weekday }: { startHour: number, weekday: number }) {
+    if (typeof window === "undefined") return null;
+
     const cachedStr = localStorage.getItem("lessons");
     let cachedData: { [classid: string]: CachedLessonData } | null = cachedStr ? JSON.parse(cachedStr) : null;
 
     const [lessons, setLessons] = useState<LessonData[] | null>([]);
+    const [todaysLessons, setTodaysLessons] = useState<LessonData[] | null>(null);
     const searchParams = useSearchParams();
 
     useEffect(() => {
@@ -102,9 +76,9 @@ export function TimetableItems({ startHour }: { startHour: number }) {
                 return;
             }
             data = data
-                .filter(lesson => lesson.dayOfWeek === new Date().getDay())
+                // .filter(lesson => lesson.dayOfWeek === new Date().getDay())
                 .filter(lesson => lesson.texts.filter(Boolean).length > 0);
-            data = fixOverlaps(data);
+            // data = fixOverlaps(data);
             data.forEach(lesson => {
                 const lessonStart = timeToHours(lesson.start);
                 const lessonEnd = timeToHours(lesson.end);
@@ -119,13 +93,20 @@ export function TimetableItems({ startHour }: { startHour: number }) {
         });
     }, [searchParams, startHour]);
 
+    useEffect(() => {
+        if (!lessons) return;
+        setTodaysLessons(
+            fixOverlaps(lessons
+                .filter(lesson => lesson.dayOfWeek === weekday)));
+    }, [lessons, weekday]);
+
     if (!searchParams.get("class")) return <h3 className={styles.statusText}>Välj en klass</h3>;
-    if (lessons == null) return <h3 className={styles.statusText}>Kunde inte ladda lektioner</h3>;
-    if (!lessons) return <h3 className={styles.statusText}>Laddar...</h3>;
+    if (todaysLessons == null) return <h3 className={styles.statusText}>Kunde inte ladda lektioner</h3>;
+    if (!todaysLessons) return <h3 className={styles.statusText}>Laddar...</h3>;
 
     return (
         <>
-            {lessons.map((lesson, index) => (
+            {todaysLessons.map((lesson, index) => (
                 <Lesson key={index} {...lesson} />
             ))}
         </>
@@ -139,10 +120,17 @@ interface LessonTimeTableProps {
 
 export default function LessonTimetable({ startHour, endHour }: LessonTimeTableProps) {
     const [indicatorTopMult, setIndicatorTopMult] = useState<number | null>(null);
+    const [selectedWeekday, setSelectedWeekday] = useState(new Date().getDay() - 1);
+
+    const clockRef = useRef<HTMLDivElement>(null);
+    const dateRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const updateTime = () => {
             const now = new Date();
+            // Set day to current weekday
+            now.setDate(now.getDate() - (now.getDay() - selectedWeekday + 7) % 7 + 1);
+
             const total_hours = now.getHours() + now.getMinutes() / 60;
             if (total_hours < startHour || total_hours > endHour) {
                 setIndicatorTopMult(null);
@@ -150,17 +138,38 @@ export default function LessonTimetable({ startHour, endHour }: LessonTimeTableP
             }
             const mult = (total_hours - startHour) * 2;
             setIndicatorTopMult(mult);
+
+            if (clockRef.current) {
+                clockRef.current.textContent = now.toLocaleTimeString('sv-se', { hour: '2-digit', minute: '2-digit' })
+            }
+            if (dateRef.current) {
+                const weekNum = getWeek(now);
+                let weekday = now.toLocaleDateString('sv-se', { weekday: 'long' });
+                weekday = weekday.charAt(0).toUpperCase() + weekday.slice(1);
+
+                dateRef.current.textContent = `${weekday} v${weekNum} ${now.getFullYear()} `;
+            }
         };
 
         updateTime();
         const interval = setInterval(updateTime, 60 * 1000);
         return () => clearInterval(interval);
-    }, [endHour, startHour]);
+    }, [endHour, startHour, selectedWeekday]);
 
     return (
         <div className={[styles.timetable, "glass"].join(" ")}>
             <div className={[styles.header, "header"].join(" ")}>
-                <TimeHeader />
+                <span id="current-date" ref={dateRef}></span>
+                <span id="current-time" ref={clockRef}></span>
+
+                <select className={styles.daySelector} onChange={e => {
+                    setSelectedWeekday(Number(e.target.value));
+                }} value={selectedWeekday}>
+                    {["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag"].map((day, index) => (
+                        <option key={index} value={index}>{day}</option>
+                    ))}
+                </select>
+                <svg className={styles.dropdownArrow} xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 10l5 5 5-5z'></path></svg>
             </div>
             <div className={styles.body}>
                 {indicatorTopMult === null ? null : (
@@ -185,7 +194,12 @@ export default function LessonTimetable({ startHour, endHour }: LessonTimeTableP
                     })}
                 </div>
                 <div className={styles.lessonColumn}>
-                    <TimetableItems startHour={startHour} />
+                    <Suspense>
+                        <TimetableItems
+                            startHour={startHour}
+                            weekday={selectedWeekday + 1} // 0-indexed
+                        />
+                    </Suspense>
                 </div>
             </div>
         </div>

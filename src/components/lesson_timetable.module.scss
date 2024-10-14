@@ -75,3 +75,29 @@
     text-align: center;
 }
 
+
+.daySelector, .dropdownArrow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    line-height: 100%;
+    font-size: 1.5em;
+    width: 1ch;
+    border: none;
+}
+.daySelector {
+    background: transparent;
+    color: transparent;
+}
+.dropdownArrow {
+    pointer-events: none;
+}
+.dropdownArrow > path {
+    fill: var(--text-primary);
+}
+.daySelector > option {
+    color: var(--text-inverted);
+    font-size: 1rem;
+}
+
