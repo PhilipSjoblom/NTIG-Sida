@@ -13,6 +13,7 @@
     --header-icon-padding: 10px;
     --header-icon-size: calc(var(--header-height) - 2 * var(--header-icon-padding));
     position: relative;
+    padding: 0 2ch;
 }
 
 .body {
