@@ -7,7 +7,7 @@ export default function Announcement() {
 
     useEffect(() => {
         if (!process.env.NEXT_PUBLIC_ANNOUNCEMENT_MESSAGE_URL) return;
-        fetch("/e")
+        fetch(process.env.NEXT_PUBLIC_ANNOUNCEMENT_MESSAGE_URL)
             .then(response => {
                 if (!response.ok) throw new Error("Failed to fetch announcement message");
                 return response.text();
