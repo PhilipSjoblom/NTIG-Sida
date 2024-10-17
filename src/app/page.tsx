@@ -36,6 +36,12 @@ export default function Page() {
                         }
                     }}
                 />
+                <button 
+                    onClick={() => router.push("/class")}
+                    className={styles.allClasses}
+                >
+                    Fortsätt utan att välja klass
+                </button>
             </div>
         </>
     )

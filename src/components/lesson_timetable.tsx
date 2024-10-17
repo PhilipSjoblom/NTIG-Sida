@@ -2,8 +2,10 @@
 
 import styles from "./lesson_timetable.module.scss";
 import { default as Lesson, LessonData } from "./lesson";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import router from "next/router";
+import { getClasses } from "@/utils";
 
 function getWeek(date: Date): number {
     const firstJan = new Date(date.getFullYear(), 0, 1);
@@ -100,7 +102,42 @@ export function TimetableItems({ startHour, weekday }: { startHour: number, week
                 .filter(lesson => lesson.dayOfWeek === weekday)));
     }, [lessons, weekday]);
 
-    if (!searchParams.get("class")) return <h3 className={styles.statusText}>Välj en klass</h3>;
+    const createQueryString = useCallback(
+        (name: string, value: string) => {
+            const params = new URLSearchParams(searchParams.toString())
+            params.set(name, value)
+
+            return params.toString()
+        },
+        [searchParams]
+    )
+    
+    if (!searchParams.get("class")) 
+        return (
+            <div className={styles.classSelectContainer}>
+                <select className={styles.classSelector} onChange={e => {
+                    window.history.pushState({}, "", `?${createQueryString("class", e.target.value)}`);
+                }} defaultValue="">
+                    <option value="" disabled={true}>
+                        Välj en klass
+                    </option>
+                    {getClasses(true).map((class_name, index) => (
+                        <option key={index} value={class_name.toLowerCase()}>{class_name}</option>
+                    ))}
+                </select>
+                <input
+                    type="text"
+                    placeholder="Eller skriv in manuellt"
+                    autoFocus={true}
+                    className={styles.manualInput}
+                    onKeyDown={e => {
+                        if (e.key === "Enter") {
+                            router.push(`/class/?class=${e.currentTarget.value}`);
+                        }
+                    }}
+                />
+            </div>
+        );
     if (todaysLessons == null) return <h3 className={styles.statusText}>Kunde inte ladda lektioner</h3>;
     if (!todaysLessons) return <h3 className={styles.statusText}>Laddar...</h3>;
 

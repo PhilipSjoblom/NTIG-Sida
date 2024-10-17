@@ -16,9 +16,6 @@ import SourceMessage from '@/components/source_message';
 function MainPage() {
     const searchParams = useSearchParams();
     const classId = searchParams.get("class");
-    if (!classId) {
-        return notFound();
-    }
 
     const links: OutgoingLinkProps[] = [
         {

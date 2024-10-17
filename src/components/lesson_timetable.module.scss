@@ -50,6 +50,7 @@
     font-family: var(--font-family-monospace);
     font-size: 1.0em;
 }
+
 .halfHour {
     color: var(--text-secondary);
 }
@@ -77,7 +78,8 @@
 }
 
 
-.daySelector, .dropdownArrow {
+.daySelector,
+.dropdownArrow {
     position: absolute;
     top: 0;
     right: 0;
@@ -87,18 +89,56 @@
     width: 1ch;
     border: none;
 }
+
 .daySelector {
     background: transparent;
     color: transparent;
 }
+
 .dropdownArrow {
     pointer-events: none;
 }
-.dropdownArrow > path {
+
+.dropdownArrow>path {
     fill: var(--text-primary);
 }
-.daySelector > option {
+
+.daySelector>option {
     color: var(--text-inverted);
     font-size: 1rem;
 }
 
+
+.classSelectContainer {
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+    align-items: center;
+
+    .classSelector,
+    .manualInput {
+        backdrop-filter: blur(20px);
+    }
+
+    .manualInput {
+        color: var(--text-primary);
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        border: 1px solid var(--text-primary);
+        background-color: var(--background-secondary);
+    }
+
+    .classSelector {
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        border: 1px solid var(--text-primary);
+        background-color: var(--background);
+        color: var(--text-primary);
+    }
+
+    .classSelector>option {
+        color: var(--text);
+        background-color: var(--true-background);
+        font-size: 1rem;
+    }
+}
