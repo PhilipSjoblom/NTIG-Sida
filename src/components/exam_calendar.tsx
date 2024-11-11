@@ -43,7 +43,7 @@ function getExamDate(exam: Exam): string {
     } else if (daysUntil < 7) {
         return `På ${exam.start.toLocaleDateString('sv-se', { weekday: 'long' })}`;
     } else {
-        return exam.start.toLocaleDateString('sv-se', { weekday: 'long' });
+        return exam.start.toLocaleDateString('sv-se', { weekday: 'long', month: 'long', day: 'numeric' });
     }
 }
 
