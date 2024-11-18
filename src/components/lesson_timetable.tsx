@@ -132,7 +132,7 @@ export function TimetableItems({ startHour, weekday }: { startHour: number, week
                     className={styles.manualInput}
                     onKeyDown={e => {
                         if (e.key === "Enter") {
-                            router.push(`/class/?class=${e.currentTarget.value}`);
+                            window.history.pushState({}, "", `?${createQueryString("class", e.currentTarget.value)}`);
                         }
                     }}
                 />
