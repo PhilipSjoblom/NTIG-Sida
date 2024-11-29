@@ -95,14 +95,11 @@ export default function ExamCalendar() {
         var examClass: string | null = searchParams.get("exam");
         if (!examClass) {
             examClass = localStorage.getItem("exam");
-            if (!examClass) 
+            if (examClass) 
+                window.history.pushState({}, "", `?${createQueryString("exam", examClass as string)}`);
+            else
                 examClass = searchParams.get("class");
-            window.history.pushState({}, "", `?${createQueryString("exam", examClass as string)}`);
         }
-        if (examClass)
-            localStorage.setItem("exam", examClass);
-        else
-            localStorage.removeItem("exam");
         return examClass;
     })());
 
@@ -132,11 +129,12 @@ export default function ExamCalendar() {
     const selected = (exam: Exam) => !selectedClass || exam.title.toLowerCase().includes(selectedClass.toLowerCase());
 
     const allClasses = ["Ingen", ...getClasses(true)];
+    const relevant = exams.filter(selected);
 
     return (
         <div className={[styles.examCalendar, "glass"].join(" ")}>
             <div className={[styles.header, "header"].join(" ")}>
-                <span>Prov ({exams.filter(selected).length})</span>
+                <span>Prov ({relevant.length})</span>
 
                 <select className={styles.classSelector} onChange={e => {
                     if (e.target.value === "") {
@@ -162,8 +160,7 @@ export default function ExamCalendar() {
                 <svg className={styles.dropdownArrow} xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 10l5 5 5-5z'></path></svg>
             </div>
             <div className={styles.body}>
-                {exams
-                    .filter(selected)
+                {relevant
                     .map((exam, index) => (
                         <ExamCard key={index} exam={exam} />
                     ))}
