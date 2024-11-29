@@ -141,6 +141,7 @@ export default function ExamCalendar() {
                 <select className={styles.classSelector} onChange={e => {
                     if (e.target.value === "") {
                         setSelectedClass(null);
+                        localStorage.removeItem("exam");
                         const params = new URLSearchParams(searchParams.toString());
                         params.delete("exam");
                         window.history.pushState({}, "", `?${params.toString()}`);
