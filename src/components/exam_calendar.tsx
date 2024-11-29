@@ -81,17 +81,30 @@ function ExamCard({ exam }: { exam: Exam }) {
 export default function ExamCalendar() {
     const [exams, setExams] = useState<Exam[]>([]);
     const searchParams = useSearchParams();
-    const [selectedClass, setSelectedClass] = useState<string | null>(searchParams.get("exam") ?? searchParams.get("class") ?? null);
 
     const createQueryString = useCallback(
         (name: string, value: string) => {
             const params = new URLSearchParams(searchParams.toString())
             params.set(name, value)
-
             return params.toString()
         },
         [searchParams]
     )
+
+    const [selectedClass, setSelectedClass] = useState<string | null>((()=>{
+        var examClass: string | null = searchParams.get("exam");
+        if (!examClass) {
+            examClass = localStorage.getItem("exam");
+            if (!examClass) 
+                examClass = searchParams.get("class");
+            window.history.pushState({}, "", `?${createQueryString("exam", examClass as string)}`);
+        }
+        if (examClass)
+            localStorage.setItem("exam", examClass);
+        else
+            localStorage.removeItem("exam");
+        return examClass;
+    })());
 
     useEffect(() => {
         if (!process.env.NEXT_PUBLIC_EXAM_GCAL_URL) return;
@@ -118,20 +131,31 @@ export default function ExamCalendar() {
 
     const selected = (exam: Exam) => !selectedClass || exam.title.toLowerCase().includes(selectedClass.toLowerCase());
 
+    const allClasses = ["Ingen", ...getClasses(true)];
+
     return (
         <div className={[styles.examCalendar, "glass"].join(" ")}>
             <div className={[styles.header, "header"].join(" ")}>
                 <span>Prov ({exams.filter(selected).length})</span>
 
                 <select className={styles.classSelector} onChange={e => {
+                    if (e.target.value === "") {
+                        setSelectedClass(null);
+                        const params = new URLSearchParams(searchParams.toString());
+                        params.delete("exam");
+                        window.history.pushState({}, "", `?${params.toString()}`);
+                        return;
+                    }
                     setSelectedClass(e.target.value);
                     window.history.pushState({}, "", `?${createQueryString("exam", e.target.value)}`);
                 }} defaultValue={selectedClass ?? ""}>
                     <option value="" disabled={true}>
                         Välj en klass
                     </option>
-                    {getClasses(true).map((class_name, index) => (
-                        <option key={index} value={class_name.toLowerCase()}>{class_name}</option>
+                    {allClasses.map((class_name, index) => (
+                        class_name === "Ingen" 
+                        ? <option key={index} value={""}>{class_name}</option> 
+                        : <option key={index} value={class_name.toLowerCase()}>{class_name}</option>
                     ))}
                 </select>
                 <svg className={styles.dropdownArrow} xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 10l5 5 5-5z'></path></svg>

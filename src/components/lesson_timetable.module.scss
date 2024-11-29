@@ -79,24 +79,33 @@
 
 
 .daySelector,
+.classDeselector,
 .dropdownArrow {
     position: absolute;
     top: 0;
-    right: 0;
     height: 100%;
     line-height: 100%;
     font-size: 1.5em;
     width: 1ch;
     border: none;
 }
+.r {
+    right: 0;
+}
+.l {
+    left: 0;
+}
 
 .daySelector {
     background: transparent;
     color: transparent;
 }
-
 .dropdownArrow {
     pointer-events: none;
+}
+.classDeselector {
+    background: transparent;
+    color: red;
 }
 
 .dropdownArrow>path {

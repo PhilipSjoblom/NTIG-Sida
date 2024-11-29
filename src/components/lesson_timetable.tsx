@@ -64,8 +64,14 @@ export function TimetableItems({ startHour, weekday }: { startHour: number, week
     const searchParams = useSearchParams();
 
     useEffect(() => {
-        const classid = searchParams.get("class");
-        if (!classid) return;
+        let classid = searchParams.get("class");
+        if (!classid) {
+            classid = localStorage.getItem("class");
+            if (!classid) return;
+            window.history.pushState({}, "", `?${createQueryString("class", classid as string)}`);
+        } else {
+            localStorage.setItem("class", classid);
+        }
 
         if (cachedData && cachedData[classid] && cachedData[classid].date === new Date().toLocaleDateString("sv-SE")) {
             setLessons(cachedData[classid].lessons);
@@ -162,6 +168,8 @@ export default function LessonTimetable({ startHour, endHour }: LessonTimeTableP
     const clockRef = useRef<HTMLDivElement>(null);
     const dateRef = useRef<HTMLDivElement>(null);
 
+    const searchParams = useSearchParams();
+
     useEffect(() => {
         const updateTime = () => {
             const now = new Date();
@@ -196,17 +204,32 @@ export default function LessonTimetable({ startHour, endHour }: LessonTimeTableP
     return (
         <div className={[styles.timetable, "glass"].join(" ")}>
             <div className={[styles.header, "header"].join(" ")}>
+                {searchParams.get("class") &&
+                    <>
+                    <button 
+                        className={[styles.classDeselector, styles.r].join(" ")}
+                        onClick={() => {
+                            localStorage.removeItem("class");
+                            const params = new URLSearchParams(searchParams.toString());
+                            params.delete("class");
+                            window.history.pushState({}, "", `?${params.toString()}`);
+                        }}
+                    />
+                    <svg className={[styles.dropdownArrow, styles.r].join(" ")} xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                    </>
+                }
+
                 <span id="current-date" ref={dateRef}></span>
                 <span id="current-time" ref={clockRef}></span>
 
-                <select className={styles.daySelector} onChange={e => {
+                <select className={[styles.daySelector, styles.l].join(" ")} onChange={e => {
                     setSelectedWeekday(Number(e.target.value));
                 }} value={selectedWeekday}>
                     {["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag"].map((day, index) => (
                         <option key={index} value={index}>{day}</option>
                     ))}
                 </select>
-                <svg className={styles.dropdownArrow} xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 10l5 5 5-5z'></path></svg>
+                <svg className={[styles.dropdownArrow, styles.l].join(" ")} xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 10l5 5 5-5z'></path></svg>
             </div>
             <div className={styles.body}>
                 {indicatorTopMult === null ? null : (

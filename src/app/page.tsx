@@ -1,48 +1,91 @@
-'use client'
+"use client";
 
-import { getClasses } from '@/utils';
+import Background from '../components/background';
+import OutgoingLink, { OutgoingLinkProps } from '../components/outgoing_link';
 import styles from './page.module.scss';
-import Background from '@/components/background';
-import { useRouter } from 'next/navigation';
+import LessonTimetable from "../components/lesson_timetable"
+import "./page.scss";
+import Announcement from '../components/announcement';
+import SchoolFood from '../components/school_food';
+import ExamCalendar from '../components/exam_calendar';
+import { Suspense } from 'react';
 import SourceMessage from '@/components/source_message';
 
-export default function Page() {
-    const router = useRouter();
+const links: OutgoingLinkProps[] = [
+    {
+        url: "https://sms.schoolsoft.se/nti/sso",
+        icon_url: "/quick_links/schoolsoft.png",
+        title: "Schoolsoft"
+    },
+    {
+        url: "https://web.skola24.se/timetable/timetable-viewer/it-gymnasiet.skola24.se/NTI%20S%C3%B6dert%C3%B6rn",
+        icon_url: "/quick_links/skola24.png",
+        title: "Skola24"
+    },
+    {
+        url: "https://skolmaten.se/nti-gymnasiet-sodertorn/",
+        icon_url: "/quick_links/skolmaten.png",
+        title: "Skolmaten"
+    },
+    {
+        url: "https://outlook.com/ntig.se",
+        icon_url: "/quick_links/outlook.png",
+        title: "Outlook"
+    },
+    {
+        url: "https://www.gymnasieguiden.se/reportage/tips-om-studieteknik",
+        icon_url: "/quick_links/studieteknik.webp",
+        title: "Studieteknik"
+    },
+    {
+        url: "https://skrivguiden.se/",
+        icon_url: "/quick_links/skrivguiden.webp",
+        title: "Skrivguiden"
+    },
+    {
+        url: "https://sl.se/?mode=travelPlanner",
+        icon_url: "/quick_links/sl.png",
+        title: "SL",
+    },
+    {
+        url: "https://classroom.google.com/h",
+        icon_url: "/quick_links/classroom.png",
+        title: "Google Classroom",
+    },
+];
 
+function MainPage() {
     return (
         <>
             <SourceMessage />
             <Background />
-            <div className={styles.container}>
-                <select className={styles.classSelector} onChange={e => {
-                    if (e.target.value === "") return;
-                    router.push(`/class/?class=${e.target.value}`);
-                }} defaultValue="">
-                    <option value="" disabled={true}>
-                        Välj en klass
-                    </option>
-                    {getClasses(true).map((class_name, index) => (
-                        <option key={index} value={class_name.toLowerCase()}>{class_name}</option>
-                    ))}
-                </select>
-                <input
-                    type="text"
-                    placeholder="Eller skriv in manuellt"
-                    autoFocus={true}
-                    className={styles.manualInput}
-                    onKeyDown={e => {
-                        if (e.key === "Enter") {
-                            router.push(`/class/?class=${e.currentTarget.value}`);
-                        }
-                    }}
-                />
-                <button 
-                    onClick={() => router.push("/class")}
-                    className={styles.allClasses}
-                >
-                    Fortsätt utan att välja klass
-                </button>
+            <div className={styles.columns}>
+                <div className={[styles.column1, styles.column].join(" ")}>
+                    <LessonTimetable startHour={8} endHour={17} />
+                </div>
+                <div className={[styles.column2, styles.column].join(" ")}>
+                    <div className={styles.linksContainer}>
+                        {links.map((link, index) => (
+                            <OutgoingLink key={index} {...link} />
+                        ))}
+                        {/* <SLRouteLink url="https://sl.se/?mode=travelPlanner" title="SL" /> */}
+                        {/* TODO: ICal */}
+                    </div>
+                    <Announcement />
+                </div>
+                <div className={[styles.column3, styles.column].join(" ")}>
+                    <SchoolFood />
+                    <ExamCalendar />
+                </div>
             </div>
         </>
+    );
+}
+
+export default function Page() {
+    return (
+        <Suspense>
+            <MainPage />
+        </Suspense>
     )
 }
